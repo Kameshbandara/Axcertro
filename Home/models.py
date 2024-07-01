@@ -1,3 +1,7 @@
+import re
+
+from django.core.exceptions import ValidationError
+
 from django.db import models
 
 
@@ -8,3 +12,9 @@ class details(models.Model):
     
 class Meta:
         verbose_name_plural = "All Details"
+
+def clean(self):
+        super().clean()
+        email = self.Email
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            raise ValidationError("Enter a valid email address")
